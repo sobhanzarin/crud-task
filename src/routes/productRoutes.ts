@@ -28,5 +28,5 @@ router.put(
   validationHandler,
   updateProduct,
 );
-router.delete("/products/:id", deleteProduct);
+router.delete("/products/:id", idValidator, validationHandler, deleteProduct);
 export default router;

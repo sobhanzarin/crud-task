@@ -1,5 +1,6 @@
 import { body, param } from "express-validator";
 
+// validation for create product
 export const createProductValidator = [
   body("name")
     .isString()
@@ -21,6 +22,7 @@ export const createProductValidator = [
     .withMessage("تعداد نمیتواند منفی باشد"),
 ];
 
+// validation for update product
 export const updateProductValidator = [
   param("id").isMongoId().withMessage("شناسه محصول معتبر نیست"),
 
@@ -35,6 +37,7 @@ export const updateProductValidator = [
     .withMessage("تعداد نمیتواند منفی باشد"),
 ];
 
+// validation param id for delete and update
 export const idValidator = [
   param("id").isMongoId().withMessage("شناسه وارد شده معتبذ نمی باشد"),
 ];

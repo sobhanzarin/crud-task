@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 
-export function validationHandler(req: Request, res: Response, next: NextFunction) {
+/**
+ * middlwware validation for routes
+ */
+export function validationHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {

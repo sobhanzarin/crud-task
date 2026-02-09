@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 
-export const productValidator = [
+export const createProductValidator = [
   body("name")
     .isString()
     .notEmpty()

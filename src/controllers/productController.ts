@@ -55,7 +55,11 @@ export async function getProductById(req: Request, res: Response) {
 }
 
 // update product
-export async function updateProduct(req: Request, res: Response) {
+export async function updateProduct(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     const { id } = req.params;
     const product = await checkExistById(id as string);
@@ -74,7 +78,9 @@ export async function updateProduct(req: Request, res: Response) {
     }
     await product.save();
     return successResponse(res, "", ProductMessage.Updated, 200);
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 }
 
 // delete product

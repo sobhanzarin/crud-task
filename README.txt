@@ -9,6 +9,7 @@ CRUD Task Product
 - MongoDb
 - Mongoose (orm)
 - TypeScript
+- express-validator
 
 
 --------------------------
@@ -116,3 +117,22 @@ response کلی ساختار :
 }
 
 
+--------------------------
+اعتبار سنجی
+--------------------------
+
+- name:
+  isString
+  notEmpty
+  isLength({min: 5})
+  
+- description:
+  isString
+  
+- price:
+  isNumeric
+
+- stock:
+  isString
+  notEmpty
+  isInt({ min: 0 })

@@ -9,7 +9,10 @@ export const createProductValidator = [
     .isLength({ min: 5 })
     .withMessage("نام باید بیشتر از 5 کاراکتر باشه"),
 
-  body("description").isString().withMessage("توضیحات باید متن باشه"),
+  body("description")
+    .isString()
+    .optional()
+    .withMessage("توضیحات باید متن باشه"),
 
   body("price").isNumeric().withMessage("مبلغ باید به صورت عددی وارد شود"),
 
@@ -39,5 +42,5 @@ export const updateProductValidator = [
 
 // validation param id for delete and update
 export const idValidator = [
-  param("id").isMongoId().withMessage("شناسه وارد شده معتبذ نمی باشد"),
+  param("id").isMongoId().withMessage("شناسه وارد شده معتبر نمی باشد"),
 ];

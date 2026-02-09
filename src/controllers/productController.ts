@@ -38,8 +38,13 @@ export async function getAllProduct(
   next: NextFunction,
 ) {
   try {
-    const products: IProduct[] = await Product.find();
-    return successResponse(res, products, "", 200);
+    const products: IProduct[] = await Product.find(
+      {},
+      { updatedAt: 0, __v: 0 },
+    );
+    if (products.length === 0)
+      throw createHttpError.NotFound(ProductMessage.Null);
+    return successResponse(res, products, null, 200);
   } catch (error) {
     next(error);
   }
@@ -51,7 +56,7 @@ export async function getProductById(req: Request, res: Response) {
 
   // method check exist product and return product
   const product: IProduct | null = await checkExistById(id as string);
-  return successResponse(res, product, "", 200);
+  return successResponse(res, product, null, 200);
 }
 
 // update product
@@ -77,7 +82,7 @@ export async function updateProduct(
       product.stock = body.stock;
     }
     await product.save();
-    return successResponse(res, "", ProductMessage.Updated, 200);
+    return successResponse(res, null, ProductMessage.Updated, 200);
   } catch (error) {
     next(error);
   }
@@ -94,7 +99,7 @@ export async function deleteProduct(
     await checkExistById(id as string);
     await Product.deleteOne({ _id: id });
 
-    return successResponse(res, "", ProductMessage.Deleted, 200);
+    return successResponse(res, null, ProductMessage.Deleted, 200);
   } catch (error) {
     next(error);
   }
@@ -102,7 +107,10 @@ export async function deleteProduct(
 
 // check exist product by id
 async function checkExistById(id: string) {
-  const product: IProduct | null = await Product.findById(id);
+  const product: IProduct | null = await Product.findById(id, {
+    updatedAt: 0,
+    __v: 0,
+  });
   if (!product) throw createHttpError.NotFound(ProductMessage.NotFound);
   return product;
 }
@@ -111,7 +119,7 @@ async function checkExistById(id: string) {
 function successResponse(
   res: Response,
   data: any,
-  message: string,
+  message: string | null,
   statusCode: number,
 ) {
   return res.json({
@@ -119,7 +127,7 @@ function successResponse(
     data: {
       status: statusCode,
       message,
-      result: data,
+      result: data ?? null,
     },
   });
 }
